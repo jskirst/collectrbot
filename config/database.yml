@@ -1,0 +1,18 @@
+development:
+  adapter: postgresql
+  database: collectrbot_development
+  pool: 5
+  username: postgres
+  password: 168washu
+
+test:
+  adapter: postgresql
+  database: collectrbot_development
+  pool: 5
+  username: postgres
+  password: 168washu
+
+production:
+  adapter: postgresql
+  database: db/production.postgresql
+  pool: 5

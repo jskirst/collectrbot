@@ -1,0 +1,27 @@
+#index{ style: "text-align: center;" }  
+  #search.form.form-search
+    .input-append{ style: "width: 60%;" }
+      %input#search_input.search-query.input-block-level{ type: "text", autocomplete: "Off" }
+      %span.add-on{ style: "border-radius: 0 14px 14px 0;" }
+        %i.icon.icon-search
+  
+  #search_results
+    %ul
+        
+  %ul
+    - @top_pages.each do |page|
+      %li.page{ style: "text-align: center;" }
+        %h3= page.title || "Mystery Page"
+        %h5= link_to page.url, page.url
+        %h6= time_ago_in_words(page.updated_at) + " ago"
+  
+  .view_more.btn.btn-info{ onclick: "$('.bottom_pages').slideDown(); $(this).hide();", style: "margin: 20px auto;" } View More
+  
+  %ul.bottom_pages{ style: "display: none;" }
+    - @bottom_pages.each do |page|
+      %li
+        .page{ style: "text-align: center;" }
+          %h3= page.title || "Mystery Page"
+          %h5= page.url
+          %h6= time_ago_in_words(page.updated_at) + " ago"
+  

@@ -1,0 +1,17 @@
+// Place all the styles related to the Pages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#index {
+  #search_results { 
+    background-color: #EEE;
+    ul { text-align: center; }
+  }
+  
+  ul {
+    list-style: none;
+    li { border-bottom: 1px solid #DDD; }
+    
+    h3 { font-size: 20px; height: 2em; overflow: hidden; }
+  }
+}
