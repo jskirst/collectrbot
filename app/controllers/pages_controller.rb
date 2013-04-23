@@ -21,7 +21,7 @@ class PagesController < ApplicationController
     if query.blank?
       items = []
     else
-      items = Page.where("title like ?", "%#{query}%").collect { |i| { title: i.title, url: i.url, updated_at: "20 minutes ago" } }
+      items = Page.where("title ILIKE ?", "%#{query}%").collect { |i| { title: i.title, url: i.url, updated_at: "20 minutes ago" } }
     end
     
     render json: items
