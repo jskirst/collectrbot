@@ -1,14 +1,20 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.13'
+gem "rails", "3.2.13"
 gem "pg"
 gem "devise"
-gem "unicorn"
 
-gem "debugger"
-gem "binding_of_caller"
-gem "better_errors"
-gem "quiet_assets"
+group :development do
+  gem "thin"
+  gem "debugger"
+  gem "binding_of_caller"
+  gem "better_errors"
+  gem "quiet_assets"
+end
+
+group :production do
+  gem "unicorn"
+end
 
 gem "haml"
 gem "haml-rails"
