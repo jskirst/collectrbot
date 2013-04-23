@@ -4,7 +4,6 @@ class Page < ActiveRecord::Base
   belongs_to :user
   
   validates_presence_of :url
-  validates_presence_of :content
   validates_presence_of :user_id
   validates_presence_of :viewed
 end
