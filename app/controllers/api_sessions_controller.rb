@@ -1,4 +1,4 @@
-class ApiSessionsController < ApplicationController
+class ApiSessionsController < ApiController
   before_filter :ensure_params_exist
  
   respond_to :json
