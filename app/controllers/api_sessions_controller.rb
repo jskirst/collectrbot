@@ -8,11 +8,10 @@ class ApiSessionsController < ApiController
     return invalid_login_attempt unless user
  
     if user.valid_password?(params[:password])
-      sign_in(user)
-      render json: { success: true, token: user.authentication_token, email: user.email }
-      return
+      render json: { success: true, token: user.encrypted_id(params[:password]), email: user.email }
+    else
+      invalid_login_attempt
     end
-    invalid_login_attempt
   end
   
   protected

@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem "rails", "3.2.13"
 gem "pg"
 gem "devise"
+gem "bcrypt-ruby"
 
 group :development do
   gem "thin"

@@ -1,9 +1,7 @@
 class Page < ActiveRecord::Base
-  attr_accessible :title, :content, :visible_content, :url, :user_id, :viewed
+  attr_accessible :title, :content, :url
   
-  belongs_to :user
+  has_many :user_pages
   
   validates_presence_of :url
-  validates_presence_of :user_id
-  validates_presence_of :viewed
 end
