@@ -1,0 +1,11 @@
+%li
+  .page{ style: "text-align: center;" }
+    - first_page = page_group.first
+    - viewed = 0
+    %h3= link_to (first_page.title || "Mystery Page"), first_page.domain
+    
+    - page_group.each do |page|
+      %h5= link_to (page.title.blank? or page.title == first_page.title) ? page.sub_url : page.title, page.url
+      - viewed += page.viewed.to_i
+    
+    %h6= first_page.domain + ", Viewed for #{timeish(viewed)}, " + time_ago_in_words(first_page.updated_at) + " ago"

@@ -7,21 +7,15 @@
   
   #search_results
     %ul
-        
+  
   %ul
-    - @top_pages.each do |page|
-      %li.page{ style: "text-align: center;" }
-        %h3= page.title || "Mystery Page"
-        %h5= link_to page.url, page.url
-        %h6= time_ago_in_words(page.updated_at) + " ago"
+    - @pages.each do |page_group|
+      - if page_group.size == 1
+        = render "page", page: page_group.first
+      - else
+        = render "page_group", page_group: page_group
   
-  .view_more.btn.btn-info{ onclick: "$('.bottom_pages').slideDown(); $(this).hide();", style: "margin: 20px auto;" } View More
-  
-  %ul.bottom_pages{ style: "display: none;" }
-    - @bottom_pages.each do |page|
-      %li
-        .page{ style: "text-align: center;" }
-          %h3= page.title || "Mystery Page"
-          %h5= page.url
-          %h6= time_ago_in_words(page.updated_at) + " ago"
+          
+      
+
   

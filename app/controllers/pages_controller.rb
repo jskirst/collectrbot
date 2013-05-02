@@ -5,10 +5,15 @@ class PagesController < ApplicationController
   # GET /pages
   # GET /pages.json
   def index
-    all_pages = Page.joins(:user_pages).select("pages.*, user_pages.updated_at, user_pages.viewed").where("user_pages.user_id = ?", user_session[:token])
-    @top_pages = all_pages.where("viewed > ?", 10).order("id DESC").limit(50)
-    @bottom_pages = all_pages.where("viewed < ?", 10).order("id DESC").limit(50)
-
+    @viewing = params[:v] || "top"
+    all_pages = Page.joins(:user_pages).select("pages.*, user_pages.updated_at, user_pages.viewed").where("user_pages.user_id = ?", user_token)
+    if @viewing == "top"
+      pages = all_pages.where("viewed > ?", 10).order("id DESC").limit(50)
+    else
+      pages = all_pages.order("id DESC").limit(200)
+    end
+    
+    @pages = unflatten(pages.to_a, :domain)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @pages }
@@ -23,11 +28,32 @@ class PagesController < ApplicationController
     else
       items = Page.joins(:user_pages)
         .select("pages.*, user_pages.updated_at, user_pages.viewed")
-        .where("user_pages.user_id = ?", user_session[:token])
+        .where("user_pages.user_id = ?", user_token)
         .where("title ILIKE ?", "%#{query}%")
         .collect { |i| { title: i.title, url: i.url, updated_at: i.updated_at, viewed: i.viewed } }
     end
     render json: items
+  end
+  
+  # PUT /pages/1/archive
+  def archive
+    up = UserPage.find_by_user_id_and_page_id(user_token, params[:id])
+    up.update_attribute(:archived, true)
+    render json: { success: true }
+  end
+  
+  # PUT /pages/1/share
+  def share
+    up = UserPage.find_by_user_id_and_page_id(user_token, params[:id])
+    up.update_attribute(:favoritied, true)
+    render json: { success: true }
+  end
+  
+  # DELETE /pages/1
+  def destroy
+    up = UserPage.find_by_user_id_and_page_id(user_token, params[:id])
+    up.destroy
+    render json: { success: true }
   end
 
   # # GET /pages/1

@@ -1,0 +1,4 @@
+%li
+  .page{ style: "text-align: center;" }
+    %h3= link_to (page.title || "Mystery Page"), page.url
+    %h6= page.domain + ", Viewed for #{timeish(page.viewed)}, " + time_ago_in_words(page.updated_at) + " ago"
