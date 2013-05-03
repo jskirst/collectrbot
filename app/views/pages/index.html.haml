@@ -8,7 +8,7 @@
   #search_results
     %ul
   
-  %ul
+  %ul{ style: "padding-top: 10px;" }
     - @pages.each do |page_group|
       - if page_group.size == 1
         = render "page", page: page_group.first

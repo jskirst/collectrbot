@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_token
+  before_filter :load_resource, only: [:trash, :archive, :favorite, :share]
   
   # GET /pages
   # GET /pages.json
@@ -51,11 +52,9 @@ class PagesController < ApplicationController
   # PUT /pages/1/trash
   def trash
     if request.put?
-      up = UserPage.find_by_user_id_and_page_id(user_token, params[:id])
-      up.update_attributes!(trashed: Time.now(), archived: nil, favorited: nil, shared: nil, user_id: user_token)
+      @up.update_attributes!(trashed: Time.now(), archived: nil, favorited: nil, shared: nil, user_id: user_token)
     else
-      ups = UserPage.where("page_id in (?) and user_id = ?", params[:ids], user_token)
-      ups.update_all(trashed: Time.now(), archived: nil, favorited: nil, shared: nil, user_id: user_token)
+      @ups.update_all(trashed: Time.now(), archived: nil, favorited: nil, shared: nil, user_id: user_token)
     end
     render json: { success: true }
   end
@@ -63,65 +62,32 @@ class PagesController < ApplicationController
   # PUT /pages/1/archive
   def archive
     if request.put?
-      up = UserPage.find_by_user_id_and_page_id(user_token, params[:id])
-      up.update_attributes!(archived: Time.now(), trashed: nil, favorited: nil, shared: nil, user_id: user_token)
+      @up.update_attributes!(archived: Time.now(), trashed: nil, favorited: nil, shared: nil, user_id: user_token)
     else
-      ups = UserPage.where("page_id in (?) and user_id = ?", params[:ids], user_token)
-      ups.update_all(archived: Time.now(), trashed: nil, favorited: nil, shared: nil, user_id: user_token)
+      @ups.update_all(archived: Time.now(), trashed: nil, favorited: nil, shared: nil, user_id: user_token)
     end
     render json: { success: true }
   end
   
   # PUT /pages/1/favorite
   def favorite
-    up = UserPage.find_by_user_id_and_page_id(user_token, params[:id])
-    up.update_attributes!(favorited: Time.now(), archived: nil, trashed: nil, shared: nil, user_id: user_token)
+    @up.update_attributes!(favorited: Time.now(), archived: nil, trashed: nil, shared: nil, user_id: user_token)
     render json: { success: true }
   end
   
   # PUT /pages/1/share
   def share
-    up = UserPage.find_by_user_id_and_page_id(user_token, params[:id])
-    up.update_attributes!(shared: Time.now(), archived: nil, trashed: nil, favorited: nil, user_id: current_user.id.to_s)
+    @up.update_attributes!(shared: Time.now(), archived: nil, trashed: nil, favorited: nil, user_id: current_user.id.to_s)
     render json: { success: true }
   end
-
-  # # GET /pages/1
-  # # GET /pages/1.json
-  # def show
-  #   @page = Page.find(params[:id])
-  # 
-  #   respond_to do |format|
-  #     format.html # show.html.erb
-  #     format.json { render json: @page }
-  #   end
-  # end
-  # 
-  # # PUT /pages/1
-  # # PUT /pages/1.json
-  # def update
-  #   @page = Page.find(params[:id])
-  # 
-  #   respond_to do |format|
-  #     if @page.update_attributes(params[:page])
-  #       format.html { redirect_to @page, notice: 'Page was successfully updated.' }
-  #       format.json { head :no_content }
-  #     else
-  #       format.html { render action: "edit" }
-  #       format.json { render json: @page.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
-  # 
-  # # DELETE /pages/1
-  # # DELETE /pages/1.json
-  # def destroy
-  #   @page = Page.find(params[:id])
-  #   @page.destroy
-  # 
-  #   respond_to do |format|
-  #     format.html { redirect_to pages_url }
-  #     format.json { head :no_content }
-  #   end
-  # end
+  
+  private
+  
+  def load_resource
+    if request.put?
+      @up = UserPage.where("(user_id = ? or user_id = ?) and page_id = ?", user_token, current_user.id.to_s, params[:id]).first
+    elsif request.post?
+      @ups = UserPage.where("(user_id = ? or user_id = ?) and page_id in (?)", user_token, current_user.id.to_s, params[:ids])
+    end
+  end
 end

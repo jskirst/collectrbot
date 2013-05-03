@@ -1,3 +1,24 @@
+put_update = (id, action, item) ->
+  url = "/pages/"+id+"/"+action
+  options = 
+    method: "PUT"
+    success: (jqXHR, data) ->
+      item.slideUp()
+    error: (jqXHR, resp) ->
+      alert(resp)
+  $.ajax(url, options)
+
+post_updates = (ids, action, item) ->
+  url = "/pages/"+action
+  options =
+    data: { ids: ids }
+    method: "POST"
+    success: (jqXHR, data) ->
+      item.slideUp()
+    error: (jqXHR, resp) ->
+      alert(resp)
+  $.ajax(url, options)
+  
 options =
   source: "/pages/find"
   minLength: 0
@@ -30,25 +51,10 @@ $(".trash, .archive").click ->
     action = "archive"
 
   if id = $(this).parents(".actions").data("id")
-    url = "/pages/"+id+"/"+action
-    options = 
-      method: "PUT"
-      success: (jqXHR, data) ->
-        item.slideUp()
-      error: (jqXHR, resp) ->
-        alert(resp)
+    put_update(id, action, item)
   else
     ids = $(this).parents(".actions").data("ids")
-    url = "/pages/"+action
-    options =
-      data: { ids: ids }
-      method: "POST"
-      success: (jqXHR, data) ->
-        item.slideUp()
-      error: (jqXHR, resp) ->
-        alert(resp)
-
-  $.ajax(url, options)
+    post_updates(ids, action, item)
 
 $(".favorite, .share").click ->
   item = $(this).parents(".item")
@@ -57,11 +63,4 @@ $(".favorite, .share").click ->
   else
     action = "share"
   id = $(this).parent().data("id")
-  url = "/pages/"+id+"/"+action
-  options = 
-    method: "PUT"
-    success: (jqXHR, data) ->
-      item.slideUp()
-    error: (jqXHR, resp) ->
-      alert(resp)
-  $.ajax(url, options)
+  put_update(id, action, item)
