@@ -5,12 +5,25 @@ class PagesController < ApplicationController
   # GET /pages
   # GET /pages.json
   def index
-    @viewing = params[:v] || "top"
-    all_pages = Page.joins(:user_pages).select("pages.*, user_pages.updated_at, user_pages.viewed").where("user_pages.user_id = ?", user_token)
-    if @viewing == "top"
-      pages = all_pages.where("viewed > ?", 10).order("id DESC").limit(50)
-    else
-      pages = all_pages.order("id DESC").limit(200)
+    @viewing = params[:v] || "new"
+    all_pages = UserPage.joins("LEFT JOIN pages on pages.id = user_pages.page_id")
+      .select("user_pages.*, pages.title, pages.url, pages.id as page_id")
+      .where("user_pages.user_id = ? or user_pages.user_id = ?", user_token, current_user.id.to_s)
+    if @viewing == "newest"
+      pages = all_pages.where("trashed is ? and shared is ? and favorited is ? and archived is ?", nil, nil, nil, nil)
+        .order("user_pages.viewed DESC").limit(1000)
+    elsif @viewing == "shared"
+      pages = all_pages.where("shared is not ?", nil)
+        .order("user_pages.id DESC").limit(1000)
+    elsif @viewing == "favorites"
+      pages = all_pages.where("favorited is not ?", nil)
+        .order("user_pages.id DESC").limit(1000)
+    elsif @viewing == "archived"
+      pages = all_pages.where("archived is not ?", nil)
+        .order("user_pages.id DESC").limit(1000)
+    elsif @viewing == "trash"
+      pages = all_pages.where("trashed is not ?", nil)
+        .order("user_pages.id DESC").limit(1000)
     end
     
     @pages = unflatten(pages.to_a, :domain)
@@ -35,24 +48,41 @@ class PagesController < ApplicationController
     render json: items
   end
   
+  # PUT /pages/1/trash
+  def trash
+    if request.put?
+      up = UserPage.find_by_user_id_and_page_id(user_token, params[:id])
+      up.update_attributes!(trashed: Time.now(), archived: nil, favorited: nil, shared: nil, user_id: user_token)
+    else
+      ups = UserPage.where("page_id in (?) and user_id = ?", params[:ids], user_token)
+      ups.update_all(trashed: Time.now(), archived: nil, favorited: nil, shared: nil, user_id: user_token)
+    end
+    render json: { success: true }
+  end
+  
   # PUT /pages/1/archive
   def archive
+    if request.put?
+      up = UserPage.find_by_user_id_and_page_id(user_token, params[:id])
+      up.update_attributes!(archived: Time.now(), trashed: nil, favorited: nil, shared: nil, user_id: user_token)
+    else
+      ups = UserPage.where("page_id in (?) and user_id = ?", params[:ids], user_token)
+      ups.update_all(archived: Time.now(), trashed: nil, favorited: nil, shared: nil, user_id: user_token)
+    end
+    render json: { success: true }
+  end
+  
+  # PUT /pages/1/favorite
+  def favorite
     up = UserPage.find_by_user_id_and_page_id(user_token, params[:id])
-    up.update_attribute(:archived, true)
+    up.update_attributes!(favorited: Time.now(), archived: nil, trashed: nil, shared: nil, user_id: user_token)
     render json: { success: true }
   end
   
   # PUT /pages/1/share
   def share
     up = UserPage.find_by_user_id_and_page_id(user_token, params[:id])
-    up.update_attribute(:favoritied, true)
-    render json: { success: true }
-  end
-  
-  # DELETE /pages/1
-  def destroy
-    up = UserPage.find_by_user_id_and_page_id(user_token, params[:id])
-    up.destroy
+    up.update_attributes!(shared: Time.now(), archived: nil, trashed: nil, favorited: nil, user_id: current_user.id.to_s)
     render json: { success: true }
   end
 

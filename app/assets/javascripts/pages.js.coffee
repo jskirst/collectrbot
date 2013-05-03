@@ -13,3 +13,55 @@ options =
       throw "Prevent dumbass jquery UI"
 
 $("#search_input").autocomplete options
+
+$(".expand").click ->
+  $parent_item = $(this).parents(".item")
+  $parent_item.find(".page_group li").each ->
+    $item = $(this).remove()
+    console.log($item)
+    $($item).insertAfter($parent_item);
+  $parent_item.remove()
+  
+$(".trash, .archive").click ->
+  item = $(this).parents(".item")
+  if $(this).hasClass("trash")
+    action = "trash"
+  else
+    action = "archive"
+
+  if id = $(this).parents(".actions").data("id")
+    url = "/pages/"+id+"/"+action
+    options = 
+      method: "PUT"
+      success: (jqXHR, data) ->
+        item.slideUp()
+      error: (jqXHR, resp) ->
+        alert(resp)
+  else
+    ids = $(this).parents(".actions").data("ids")
+    url = "/pages/"+action
+    options =
+      data: { ids: ids }
+      method: "POST"
+      success: (jqXHR, data) ->
+        item.slideUp()
+      error: (jqXHR, resp) ->
+        alert(resp)
+
+  $.ajax(url, options)
+
+$(".favorite, .share").click ->
+  item = $(this).parents(".item")
+  if $(this).hasClass("favorite")
+    action = "favorite"
+  else
+    action = "share"
+  id = $(this).parent().data("id")
+  url = "/pages/"+id+"/"+action
+  options = 
+    method: "PUT"
+    success: (jqXHR, data) ->
+      item.slideUp()
+    error: (jqXHR, resp) ->
+      alert(resp)
+  $.ajax(url, options)

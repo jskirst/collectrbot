@@ -14,4 +14,15 @@
     
     h3 { font-size: 20px; height: 2em; overflow: hidden; }
   }
+  
+  .page {
+    text-align: center;
+  }
+  
+  .page_group { display: none; }
+  
+  .actions {
+    font-size: 20px;
+    cursor: pointer;
+  }
 }

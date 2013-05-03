@@ -1,4 +1,10 @@
-%li
+%li.item
   .page{ style: "text-align: center;" }
     %h3= link_to (page.title || "Mystery Page"), page.url
+    %h5= link_to page.sub_url
     %h6= page.domain + ", Viewed for #{timeish(page.viewed)}, " + time_ago_in_words(page.updated_at) + " ago"
+  .actions{ data: { id: page.page_id } }
+    %i.icon.icon-remove.trash
+    %i.icon.icon-hdd.archive
+    %i.icon.icon-share.share
+    %i.icon.icon-star-empty.favorite
