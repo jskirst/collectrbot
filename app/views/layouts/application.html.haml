@@ -32,15 +32,16 @@
     .container-fluid
 
       .row-fluid
-        .span3
-          .well
-            %ul.nav.nav-list
-              %li.nav-header= Collectrbot
-              %li{ class: @viewing == "newest" ? "active" : "" }= link_to "Newest", root_url(v: "newest")
-              %li{ class: @viewing == "shared" ? "active" : "" }= link_to "Shared", root_url(v: "shared")
-              %li{ class: @viewing == "favorites" ? "active" : "" }= link_to "Favorites", root_url(v: "favorites")
-              %li{ class: @viewing == "archived" ? "active" : "" }= link_to "Archived", root_url(v: "archived")
-              %li{ class: @viewing == "trash" ? "active" : "" }= link_to "Trash", root_url(v: "trash")
+        - if current_user
+          .span3
+            .well
+              %ul.nav.nav-list
+                %li.nav-header= Collectrbot
+                %li{ class: @viewing == "newest" ? "active" : "" }= link_to "Newest", root_url(v: "newest")
+                %li{ class: @viewing == "shared" ? "active" : "" }= link_to "Shared", root_url(v: "shared")
+                %li{ class: @viewing == "favorites" ? "active" : "" }= link_to "Favorites", root_url(v: "favorites")
+                %li{ class: @viewing == "archived" ? "active" : "" }= link_to "Archived", root_url(v: "archived")
+                %li{ class: @viewing == "trash" ? "active" : "" }= link_to "Trash", root_url(v: "trash")
                 
         .span6
           = bootstrap_flash
