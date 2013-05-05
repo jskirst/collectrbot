@@ -39,17 +39,17 @@ class UsersController < ApplicationController
   end
   
   def subscribe
-    followed_user = User.find(params[:id])
+    followed_user = User.find_by_username(params[:id])
     current_user.follow!(followed_user)
     redirect_to followed_user
   end
   
   def unsubscribe
-    followed_user = User.find(params[:id])
+    followed_user = User.find_by_username(params[:id])
     current_user.unfollow!(followed_user)
   end
   
   def approve
-    current_user.approve_subscriber!(User.find(params[:id]))
+    current_user.approve_subscriber!(User.find_by_username(params[:id]))
   end
 end
