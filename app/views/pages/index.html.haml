@@ -2,13 +2,17 @@
   $(function(){ $("#search_input").autocomplete($.CB.Pages.searchOptions) });
 
 #index{ style: "text-align: center;" }
-  .btn-group{ style: "float: right;" }
-    %a.btn.dropdown-toggle{ data: { toggle: "dropdown" } }
-      More
-      %span.caret
-    %ul.dropdown-menu
-      - if @viewing == "trash"
-        %li= link_to "Empty Trash", empty_trash_path, method: "post", confirm: "Are you sure you want to delete everything in your Trash folder?"
+  - if @viewing == "new" or @viewing == "trash"  
+    .btn-group{ style: "float: right;" }
+      %a.btn.dropdown-toggle{ data: { toggle: "dropdown" } }
+        More
+        %span.caret
+      %ul.dropdown-menu
+        - if @viewing == "new"
+          %li= link_to "Archive All", archive_all_pages_path(ids: "all"), method: "post"
+          %li= link_to "Trash All", trash_all_pages_path(ids: "all"), method: "post"
+        - elsif @viewing == "trash"
+          %li= link_to "Empty Trash", empty_trash_path, method: "post", confirm: "Are you sure you want to delete everything in your Trash folder?"
       
   #search.form.form-search
     .input-append{ style: "width: 60%;" }

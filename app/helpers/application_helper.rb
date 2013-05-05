@@ -42,4 +42,8 @@ module ApplicationHelper
     end
     return results
   end
+  
+  def left_panel_content
+    @left_panel || :hidden
+  end
 end

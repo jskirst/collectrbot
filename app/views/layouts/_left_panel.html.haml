@@ -1,0 +1,30 @@
+- if left_panel_content == :feeds
+  .well
+    %ul.nav.nav-list
+      %li.nav-header= Collectrbot
+      %li{ class: @viewing == "new" ? "active" : "" }= link_to "New", root_url(v: "new")
+      %li{ class: @viewing == "shared" ? "active" : "" }= link_to "Shared", root_url(v: "shared")
+      %li{ class: @viewing == "favorites" ? "active" : "" }= link_to "Favorites", root_url(v: "favorites")
+      %li{ class: @viewing == "archived" ? "active" : "" }= link_to "Archived", root_url(v: "archived")
+      %li{ class: @viewing == "trash" ? "active" : "" }= link_to "Trash", root_url(v: "trash")
+  .well
+    %ul.nav.nav-list
+      %li.nav-header Friends & Followers
+      - current_user.subscriptions.each do |sub|
+        %li{ class: @viewing == sub.username ? "active" : "" }= link_to sub.username, vanity_path(sub)
+- elsif left_panel_content == :help
+  .well
+    %ul.nav.nav-list
+      %li.nav-header= Collectrbot
+      %li= link_to "What is Collectrbot?", help_path
+- elsif left_panel_content == :account
+  .well
+    %ul.nav.nav-list
+      %li.nav-header Your Settings
+      %li{ class: @viewing == "username" ? "active" : "" }= link_to "Username", edit_user_path(current_user, v: "username")
+      %li{ class: @viewing == "emailpwd" ? "active" : "" }= link_to "Email and Password", edit_user_path(v: "emailpwd")
+      %li{ class: @viewing == "settings" ? "active" : "" }= link_to "Settings", edit_user_path(v: "settings")
+      %li{ class: @viewing == "delete" ? "active" : "" }= link_to "Delete Account", edit_user_path(v: "delete")
+      %li= link_to "Help", help_path
+- elsif left_panel_content != :hidden
+  - raise "No panel specified"

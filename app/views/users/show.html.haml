@@ -3,13 +3,16 @@
 - elsif not current_user.subscribed?(@user)
   = link_to "Follow", subscribe_user_path(@user), class: "btn", style: "float:right", method: "put"
 - else
-  %a.btn.disabled{ style: "float: right;" } Following
+  = link_to "Following", unsubscribe_user_path(@user), class: "btn btn-info", style: "float:right", method: "put"
   
 %h2= @user.username
 #index{ style: "text-align: center;" }
   %ul{ style: "padding-top: 10px;" }
-    - @pages.each do |page_group|
-      - if page_group.size == 1
-        = render "pages/page", page: page_group.first
-      - else
-        = render "pages/  page_group", page_group: page_group
+    - if @user.limited? and not current_user.subscribed?(@user)
+      %p This user has a limited profile. You must be approved to follow them in order to see their shared pages.
+    - else
+      - @pages.each do |page_group|
+        - if page_group.size == 1
+          = render "pages/page", page: page_group.first
+        - else
+          = render "pages/page_group", page_group: page_group

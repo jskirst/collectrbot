@@ -28,6 +28,7 @@ class PagesController < ApplicationController
     end
     
     @pages = unflatten(pages.to_a, :domain)
+    @left_panel = :feeds
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @pages }
@@ -50,23 +51,35 @@ class PagesController < ApplicationController
   end
   
   # PUT /pages/1/trash
+  # POST /pages/trash
   def trash
     if request.put?
       @up.update_attributes!(trashed: Time.now(), archived: nil, favorited: nil, shared: nil, user_id: user_token)
     else
       @ups.update_all(trashed: Time.now(), archived: nil, favorited: nil, shared: nil, user_id: user_token)
     end
-    render json: { success: true }
+    
+    if request.xhr?
+      render json: { success: true }
+    else
+      redirect_to root_url, success: "Trashed."
+    end
   end
   
   # PUT /pages/1/archive
+  # POST /pages/archive
   def archive
     if request.put?
       @up.update_attributes!(archived: Time.now(), trashed: nil, favorited: nil, shared: nil, user_id: user_token)
     else
       @ups.update_all(archived: Time.now(), trashed: nil, favorited: nil, shared: nil, user_id: user_token)
     end
-    render json: { success: true }
+    
+    if request.xhr?
+      render json: { success: true }
+    else
+      redirect_to root_url, success: "Archived."
+    end
   end
   
   # PUT /pages/1/favorite
@@ -92,7 +105,12 @@ class PagesController < ApplicationController
     if request.put?
       @up = UserPage.where("(user_id = ? or user_id = ?) and page_id = ?", user_token, current_user.id.to_s, params[:id]).first
     elsif request.post?
-      @ups = UserPage.where("(user_id = ? or user_id = ?) and page_id in (?)", user_token, current_user.id.to_s, params[:ids])
+      @ups = UserPage.where("user_id = ? or user_id = ?", user_token, current_user.id.to_s)
+      if params[:ids] == "all"
+        @ups = @ups.where("trashed is ? and archived is ? and shared is ? and favorited is ?", nil, nil, nil, nil)
+      else
+        @ups = @ups.where("page_id in (?)", params[:ids])
+      end
     end
   end
 end

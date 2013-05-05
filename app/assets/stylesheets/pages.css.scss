@@ -3,7 +3,10 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #index {
-  .dropdown-menu li { border: 0 }
+  ul.dropdown-menu {
+    text-align: left;
+    li { border: 0 }
+  }
   
   #search_results { 
     background-color: #EEE;

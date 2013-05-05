@@ -12,6 +12,8 @@ class UsersController < ApplicationController
       .limit(1000)
       .to_a
     @pages = unflatten(pages, "domain")
+    @viewing = @user.username
+    @left_panel = :feeds
   end
 
   # GET /users/1/edit  
@@ -20,6 +22,7 @@ class UsersController < ApplicationController
     if @viewing == "delete"
       render "delete"
     end
+    @left_panel = :account
   end
   
   # PUT /users/1
@@ -47,9 +50,16 @@ class UsersController < ApplicationController
   def unsubscribe
     followed_user = User.find_by_username(params[:id])
     current_user.unsubscribe!(followed_user)
+    redirect_to followed_user
   end
   
   def approve
     current_user.approve_subscriber!(User.find_by_username(params[:id]))
+  end
+  
+  private
+  
+  def show_settings_nav
+    @show_nav = true
   end
 end

@@ -37,19 +37,7 @@
       .row-fluid
         .span3
           - if current_user
-            .well
-              %ul.nav.nav-list
-                %li.nav-header= Collectrbot
-                %li{ class: @viewing == "new" ? "active" : "" }= link_to "New", root_url(v: "new")
-                %li{ class: @viewing == "shared" ? "active" : "" }= link_to "Shared", root_url(v: "shared")
-                %li{ class: @viewing == "favorites" ? "active" : "" }= link_to "Favorites", root_url(v: "favorites")
-                %li{ class: @viewing == "archived" ? "active" : "" }= link_to "Archived", root_url(v: "archived")
-                %li{ class: @viewing == "trash" ? "active" : "" }= link_to "Trash", root_url(v: "trash")
-            .well
-              %ul.nav.nav-list
-                %li.nav-header Friends & Followers
-                - current_user.subscriptions.each do |sub|
-                  %li= link_to sub.username, vanity_path(sub)
+            = render "layouts/left_panel"
         .span6
           = bootstrap_flash
           = yield
