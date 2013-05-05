@@ -9,7 +9,7 @@ class ApiPagesController < ApiController
       page = Page.find_by_url(url)
       page = Page.create(url: url, title: data["title"]) unless page
       
-      user_page = UserPage.where("page_id = ? and (user_id = ? or user_id = ?)")(page.id, params[:token], current_user.id).first  
+      user_page = UserPage.where("page_id = ? and (user_id = ? or user_id = ?)",page.id, params[:token], current_user.id).first  
       if user_page
         if viewed > user_page.viewed and viewed < 300
           user_page.update_attribute(:viewed, viewed)
