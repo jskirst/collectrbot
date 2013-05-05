@@ -1,7 +1,7 @@
 - if @user == current_user
   = link_to "Edit Profile", edit_user_path(current_user), class: "btn", style: "float: right;"
 - elsif not current_user.subscribed?(@user)
-  = link_to "Follow", subscribe_user_path(@user), class: "btn", style: "float:right"
+  = link_to "Follow", subscribe_user_path(@user), class: "btn", style: "float:right", method: "put"
 - else
   %a.btn.disabled{ style: "float: right;" } Following
   

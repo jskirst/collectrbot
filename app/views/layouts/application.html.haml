@@ -27,7 +27,7 @@
             %ul.nav.pull-right
               %li= link_to "Help", help_path
               - if user_signed_in?
-                %li= link_to current_user.username, current_user
+                %li= link_to current_user.username, vanity_path(current_user)
                 %li= link_to "Sign Out", destroy_user_session_path, method: :delete
               - else
                 %li= link_to "Sign In", new_user_session_path
