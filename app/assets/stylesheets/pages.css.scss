@@ -3,6 +3,8 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #index {
+  .dropdown-menu li { border: 0 }
+  
   #search_results { 
     background-color: #EEE;
     ul { text-align: center; }

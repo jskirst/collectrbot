@@ -1,0 +1,39 @@
+#users
+  %h3 Account Settings
+  = form_for current_user, html: { class: "form-horizontal" } do |f|
+    - if @viewing == "username"
+      .control-group
+        %label.control-label Username
+        .controls
+          = f.text_field :username
+    - elsif @viewing == "emailpwd"
+      .control-group
+        %label.control-label Email
+        .controls
+          = f.text_field :email
+      .control-group
+        %label.control-label Current Password
+        .controls
+          = f.text_field :password
+      .control-group
+        %label.control-label New Password
+        .controls
+          = f.text_field :password
+      .control-group
+        %label.control-label Confirm New Password
+        .controls
+          = f.text_field :password
+    - elsif @viewing == "settings"
+      %p 
+        You can limit access your Shared stream so that only your approved friends can view it. 
+      %p
+        Whether you limit access or not, no one will ever be able to see your deleted, archived or favorited pages.
+        Only shared pages will ever be visible.
+      .control-group
+        .controls
+          %label.checkbox
+            = f.check_box :limited
+            Limit access to your posts
+    .control-group
+      .controls
+        = f.submit "Save", class: "btn"

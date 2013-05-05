@@ -1,0 +1,16 @@
+#users
+  %h3 Deleting your Account
+  
+  %p 
+    Once you delete your account, we will delete all records associated with you.
+    These records will not be retrievable if you decide to change your mind.
+  %p
+    If you'd like to keep your records, but would like to keep them private, you can! 
+    Go to the settings tab and set your account status to limited. 
+    Only you and those that you have allowed to follow you will be able to see your shared pages.
+  %p
+    Still want to delete your account? Hit the delete button below, and click through one last confirmation.
+  %p
+    We'll miss you!
+  %p
+    = link_to "Delete My Account", current_user, class: "btn btn-danger", method: "delete", confirm: "Are you absolutely certain?"

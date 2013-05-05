@@ -9,7 +9,6 @@
     / Le HTML5 shim, for IE6-8 support of HTML elements
     /[if lt IE 9]
       = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"
-    = javascript_include_tag "application"
     = stylesheet_link_tag "application", :media => "all"
     %link(href="images/apple-touch-icon-144x144.png" rel="apple-touch-icon-precomposed" sizes="144x144")
     %link(href="images/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114")
@@ -40,16 +39,8 @@
             .well
               %ul.nav.nav-list
                 %li.nav-header= Collectrbot
-                %li{ class: @viewing == "new" ? "active" : "" }= link_to "New", root_url(v: "new")
-                %li{ class: @viewing == "shared" ? "active" : "" }= link_to "Shared", root_url(v: "shared")
-                %li{ class: @viewing == "favorites" ? "active" : "" }= link_to "Favorites", root_url(v: "favorites")
-                %li{ class: @viewing == "archived" ? "active" : "" }= link_to "Archived", root_url(v: "archived")
-                %li{ class: @viewing == "trash" ? "active" : "" }= link_to "Trash", root_url(v: "trash")
-            .well
-              %ul.nav.nav-list
-                %li.nav-header Friends & Followers
-                - current_user.subscriptions.each do |sub|
-                  %li= link_to sub.username, vanity_path(sub)
+                %li= link_to "What is Collectrbot?", help_path
+                
         .span6
           = bootstrap_flash
           = yield

@@ -10,7 +10,7 @@ class PagesController < ApplicationController
     all_pages = UserPage.joins("LEFT JOIN pages on pages.id = user_pages.page_id")
       .select("user_pages.*, pages.title, pages.url, pages.id as page_id")
       .where("user_pages.user_id = ? or user_pages.user_id = ?", user_token, current_user.id.to_s)
-    if @viewing == "newest"
+    if @viewing == "new"
       pages = all_pages.where("trashed is ? and shared is ? and favorited is ? and archived is ?", nil, nil, nil, nil)
         .order("user_pages.viewed DESC").limit(1000)
     elsif @viewing == "shared"
@@ -42,7 +42,7 @@ class PagesController < ApplicationController
     else
       items = Page.joins(:user_pages)
         .select("pages.*, user_pages.updated_at, user_pages.viewed")
-        .where("user_pages.user_id = ?", user_token)
+        .where("user_pages.user_id = ? or user_pages.user_id = ?", user_token, current_user.id.to_s)
         .where("title ILIKE ?", "%#{query}%")
         .collect { |i| { title: i.title, url: i.url, updated_at: i.updated_at, viewed: i.viewed } }
     end
@@ -79,6 +79,11 @@ class PagesController < ApplicationController
   def share
     @up.update_attributes!(shared: Time.now(), archived: nil, trashed: nil, favorited: nil, user_id: current_user.id.to_s)
     render json: { success: true }
+  end
+  
+  def empty
+    UserPage.where("user_id = ? and trashed is not ?", user_token, nil).destroy_all
+    redirect_to root_url
   end
   
   private

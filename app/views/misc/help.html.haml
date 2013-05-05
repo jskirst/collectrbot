@@ -1,0 +1,43 @@
+#help
+  %h1 Welcome, traveler
+  %h2 Where am I? How did I get here?
+  %p 
+    I have no idea how you got here, but I can tell you that you are on the world of the Collectrbots.
+  %h2 That's not helpful.
+  %p 
+    And you're no fun. You can install a Collectrbot as a Chrome Extension into, you guessed it, your Chrome web browser.
+    The Collectrbot will hang out in the background and send general info about what web pages you visit up to the Collectrbot server.
+  %h2 Why the fu&ccedil;k would I want to do that? These Collectrbot fellas sound shady.
+  %p
+    You have good internet security instincts. 
+    However, in this case, they are quite harmless and can be extremely useful. 
+  %p
+    Your Collectrbot keeps a record of every page you visited over the last 7 days, with some important exceptions that we'll discuss below. In that record, it stores how long you viewed the page, the url and the title of the page. Nothing else.
+  %p
+    You can visit collectrbot.com, or access the Collectrbot iPhone/iPad/Android app, and see everywhere you've been recently.
+    You can delete pages, archive, favorite them, or share them with other friends that have Collectrbot accounts. 
+    No more spamming Facebook or Twitter with everything that looks interesting.
+  %h2 You really keep a record of every page I visit?
+  %p
+    Simple answer, no. Collectrbots follow a few simple rules to decide what to collect and what not to.
+    %ol
+      %li Only collect sites that begin with "http", not "https", in other words sites that don't have secure information on them. That means no collecting Facebook, your email, etc - basically if you log into it, Collectrbot probably won't collect it.
+      %li By default, Chrome Extensions are not allowed to run while you're in incognito mode. So if you ever want to go 'silent', just open an incognito window, or disable Collectrbot.
+      %li Pages are only stored for seven days unless they are archived, shared or favorited. So at any given time, Collectrbot should only have your last seven days of browser history, after which its deleted forever.
+  %h2 What if you get hacked? Then someone can see all my browser history!
+  %p 
+    And right you are to be concerned. 
+    And while no website is truly secure, Collectrbot is designed from the ground up to make sure that even if we do get hacked, your browser history is safe.
+  %p
+    Basically what happens is that we store the record of the page you visited 'in the clear', without encryption. But the part that specifies that YOU visited that page, or anyone else, is encrypted.
+    If anyone manages to hack our database, all they'll get is a list of all the sites all of our users have visited, but won't have any idea who visited what.
+  %h2 Sounds great, but I want to hear the details on your so called 'encryption'...
+  %p
+    Fair enough. Visited web pages are all stored in one table with URL as a unique key. 
+    Every time a user visits a page, a record in a join table is created (join between users and pages).
+    The join table stores the page id in the clear, but the user id is actually a hashed value (using ruby bcrypt) of the user's email, unencrypted password and a universal secret salt.
+    Using the user's unencrypted password in the hash means that no one can access the records but the user (we store only the user's encrypted password in the database).
+    The only downside is that should the user forget their password, any records they haven't favorited, archived or shared will be lost. Literally lost - we won't know which ones are theirs.
+  
+  
+  

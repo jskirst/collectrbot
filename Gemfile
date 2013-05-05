@@ -19,6 +19,7 @@ end
 
 gem "haml"
 gem "haml-rails"
+gem "html2haml"
 
 gem "therubyracer"
 gem "less-rails"

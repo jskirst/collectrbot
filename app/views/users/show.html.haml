@@ -1,0 +1,15 @@
+- if @user == current_user
+  = link_to "Edit Profile", edit_user_path(current_user), class: "btn", style: "float: right;"
+- elsif not current_user.subscribed?(@user)
+  = link_to "Follow", subscribe_user_path(@user), class: "btn", style: "float:right"
+- else
+  %a.btn.disabled{ style: "float: right;" } Following
+  
+%h2= @user.username
+#index{ style: "text-align: center;" }
+  %ul{ style: "padding-top: 10px;" }
+    - @pages.each do |page_group|
+      - if page_group.size == 1
+        = render "pages/page", page: page_group.first
+      - else
+        = render "pages/  page_group", page_group: page_group

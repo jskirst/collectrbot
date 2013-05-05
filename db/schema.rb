@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130503015348) do
+ActiveRecord::Schema.define(:version => 20130504202645) do
 
   create_table "pages", :force => true do |t|
     t.string "title"
@@ -20,6 +20,14 @@ ActiveRecord::Schema.define(:version => 20130503015348) do
   end
 
   add_index "pages", ["url"], :name => "index_pages_on_url", :unique => true
+
+  create_table "subscriptions", :force => true do |t|
+    t.integer  "subscriber_id"
+    t.integer  "subscribed_id"
+    t.datetime "approved"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
 
   create_table "user_pages", :force => true do |t|
     t.string   "user_id"
@@ -49,6 +57,9 @@ ActiveRecord::Schema.define(:version => 20130503015348) do
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
     t.string   "username"
+    t.datetime "limited"
+    t.datetime "locked"
+    t.datetime "deactivated"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
