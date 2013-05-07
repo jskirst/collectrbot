@@ -102,7 +102,10 @@ class PagesController < ApplicationController
   private
   
   def check_token
-    redirect_to new_user_session_path if user_session[:token].blank?
+    if user_session[:token].blank?
+      sign_out current_user
+      redirect_to new_user_session_path
+    end
   end
   
   def load_resource
