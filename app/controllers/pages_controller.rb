@@ -101,6 +101,10 @@ class PagesController < ApplicationController
   
   private
   
+  def check_token
+    redirect_to new_user_session_path if user_session[:token].blank?
+  end
+  
   def load_resource
     if request.put?
       @up = UserPage.where("(user_id = ? or user_id = ?) and page_id = ?", user_token, current_user.id.to_s, params[:id]).first
