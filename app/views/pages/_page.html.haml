@@ -4,7 +4,7 @@
     %h5= link_to page.sub_url, page.url, target: "_blank"
     %h6= page.domain + ", Viewed for #{timeish(page.viewed)}, " + time_ago_in_words(page.updated_at) + " ago"
   .actions{ data: { id: page.page_id } }
-    %i.icon.icon-remove.trash{ onclick: "$.CB.Pages.updatePage(this, 'trash')", title: "Trash" }
-    %i.icon.icon-hdd.archive{ onclick: "$.CB.Pages.updatePage(this, 'archive')", title: "Archive"  }
-    %i.icon.icon-share.share{ onclick: "$.CB.Pages.updatePage(this, 'share')", title: "Share"  }
-    %i.icon.icon-star-empty.favorite{ onclick: "$.CB.Pages.updatePage(this, 'favorite')", title: "Favorite"  }
+    %i.icon.icon-cancel.trash{ onclick: "$.CB.Pages.updatePage(this, 'trash')", title: "Trash" }
+    %i.icon.icon-key.archive{ onclick: "$.CB.Pages.updatePage(this, 'archive')", title: "Archive"  }
+    %i.icon.icon-upload-cloud.share{ onclick: "$.CB.Pages.updatePage(this, 'share')", title: "Share"  }
+    %i.icon.icon-heart-empty.favorite{ onclick: "$.CB.Pages.updatePage(this, 'favorite')", title: "Favorite"  }

@@ -11,9 +11,9 @@
     %h6= first_page.domain + ", Viewed for #{timeish(viewed)}, " + time_ago_in_words(first_page.updated_at) + " ago"
   
   .actions{ data: { ids: page_group.collect(&:page_id) } }
-    %i.icon.icon-remove{ onclick: "$.CB.Pages.updateGroup(this, 'trash')", title: "Trash All" }
-    %i.icon.icon-hdd{ onclick: "$.CB.Pages.updateGroup(this, 'archive')", title: "Archive All" }
-    %i.icon.icon-list{ onclick: "$.CB.Pages.expand(this);", title: "Expand list" }
+    %i.icon.icon-cancel{ onclick: "$.CB.Pages.updateGroup(this, 'trash')", title: "Trash All" }
+    %i.icon.icon-key{ onclick: "$.CB.Pages.updateGroup(this, 'archive')", title: "Archive All" }
+    %i.icon.icon-resize-full-alt{ onclick: "$.CB.Pages.expand(this);", title: "Expand list" }
   
   %ul.page_group
     - page_group.each do |page|

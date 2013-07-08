@@ -4,6 +4,7 @@ ruby '2.0.0'
 gem "rails", "~>4.0.0"
 gem "pg"
 gem 'devise', :github => 'plataformatec/devise', :branch => 'rails4'
+gem "turbolinks"
 gem "bcrypt-ruby"
 gem 'rails_12factor'
 
