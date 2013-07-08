@@ -1,5 +1,5 @@
 class Page < ActiveRecord::Base
-  attr_accessible :title, :content, :url
+  # :title, :content, :url
   
   has_many :user_pages
   

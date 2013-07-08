@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  # :username, :email, :password, :password_confirmation, :remember_me, :limited
+  
   def to_param
     username
   end
@@ -9,8 +11,6 @@ class User < ActiveRecord::Base
   
   devise :database_authenticatable, :registerable, 
          :recoverable, :rememberable, :trackable, :validatable
-  
-  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :limited
   
   has_many :pages
   

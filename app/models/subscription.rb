@@ -1,6 +1,6 @@
 class Subscription < ActiveRecord::Base
-  attr_readonly :subscriber_id, :subscribed_id
-  attr_protected :approved
+  # :subscriber_id, :subscribed_id
+  # :approved
   
   belongs_to :subscriber, class_name: "User"
   belongs_to :subscribed, class_name: "User"

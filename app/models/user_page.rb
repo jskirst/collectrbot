@@ -1,5 +1,5 @@
 class UserPage < ActiveRecord::Base
-  attr_accessible :user_id, :page_id, :viewed, :archived, :trashed, :shared, :favorited
+  # :user_id, :page_id, :viewed, :archived, :trashed, :shared, :favorited
   
   belongs_to :user
   belongs_to :page

@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
+ruby '2.0.0'
 
-gem "rails", "3.2.13"
+gem "rails", "~>4.0.0"
 gem "pg"
-gem "devise"
+gem 'devise', :github => 'plataformatec/devise', :branch => 'rails4'
 gem "bcrypt-ruby"
 
 group :development do
@@ -25,6 +26,6 @@ gem "therubyracer"
 gem "less-rails"
 gem "twitter-bootstrap-rails"
 gem "jquery-rails"
-gem "sass-rails", "~> 3.2.3"
-gem "coffee-rails", "~> 3.2.1"
-gem "uglifier", ">= 1.0.3"
+gem "sass-rails"
+gem "coffee-rails"
+gem "uglifier"
