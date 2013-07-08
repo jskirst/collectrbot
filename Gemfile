@@ -5,6 +5,7 @@ gem "rails", "~>4.0.0"
 gem "pg"
 gem 'devise', :github => 'plataformatec/devise', :branch => 'rails4'
 gem "bcrypt-ruby"
+gem 'rails_12factor'
 
 group :development do
   gem "thin"
