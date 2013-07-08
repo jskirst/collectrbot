@@ -1,8 +1,6 @@
 Collectrbot::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
-  config.assets.paths << Rails.root.join('app', 'assets', 'stylesheets', 'fonts')
-
   # Code is not reloaded between requests
   config.cache_classes = true
   config.eager_load = true
@@ -22,6 +20,9 @@ Collectrbot::Application.configure do
 
   # Generate digests for assets URLs
   config.assets.digest = true
+  
+  config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
+  config.assets.precompile += %w( .svg .eot .woff .ttf )
 
   # Defaults to nil and saved in location specified by config.assets.prefix
   # config.assets.manifest = YOUR_PATH
@@ -49,7 +50,6 @@ Collectrbot::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( .svg .eot .woff .ttf )
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
